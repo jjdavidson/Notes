@@ -45,7 +45,48 @@
 
 \begin{document}
 
-\section{The Mean}
+\section{Data}
+\begin{definition}
+    \textbf{Categorical Variables} represent data that can be divided into different
+    groups.
+\end{definition}
+\noindent Common examples of categorical data include ethnicity, income level,
+education, age group, and gender. Categories are described by words or letters.
+Categorical data is much harder to analyze mathematically than numerical data.
+\begin{definition}
+    \textbf{Quantitative Variables} represents numerical data from population
+    measurement. Quantitative data can be either \textbf{discrete} or
+    \textbf{continuous}.
+\end{definition}
+\noindent Common examples of quantitative data include height, weight, income, age, and
+cost. If data set can only take on specific values (e.g. integer values), then
+the data set is discrete. If the data is not restricted to specific values, then
+the data set is continuous.
+
+\section{Sampling}
+Gathering the data on an entire population may be virtually impossible due to
+limitations in time and cost. Instead, a \textbf{sample} of the population will
+be studied. The sample must be representative of the population being sampled in
+order for any statistical inference to be made. Random sampling is used to to
+create samples that minimize any bias from the sampling process. 
+\begin{definition}
+    A \textbf{simple random sample (SRS)} is a sampling method in which each
+    member of a population has an equal chance of being selected.
+\end{definition}
+\noindent In practice, it may be difficult to achieve a random sample. Care must be taken
+to eliminate biases that arise in a sampling process. Many data selection
+methods are not truly random. Random number generators can be powerful tools to
+add randomization to the sampling process. Two other common types of sampling methods are 
+stratified sampling and cluster sampling. Introductory statistics assumes a simple random 
+sampling process.
+    
+\section{Histograms}
+
+\section{Percentiles}
+
+\section{Box Plots}
+
+\section{Statistical Mean}
 \begin{definition}
     The \textbf{mean (arithmetic mean)} is one of the most common measures of 
     center of a data set in statistics. The mean of a data set representing an 
@@ -63,7 +104,23 @@ sample mean is identical to the formula for population mean
     \bar{x} = \frac{1}{n}\sum x_i
 \]
 except that the sum is taken over the sample data set and $n$ represents the
-sample size.
+sample size. For datasets described by histograms, the population mean formula
+takes the form
+\[
+    \mu = \sum (RF_i) x_i
+\]
+where $RF_i$ is the relative frequency of the data point $x_i$.
+
+\section{Skewness}
+
+
+
+
+
+
+
+
+
 
 \end{document}
 
