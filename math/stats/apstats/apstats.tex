@@ -1,0 +1,69 @@
+\documentclass{article}
+
+% Document layout
+\usepackage[
+	margin=0.75in,
+	headheight=17pt,
+	includehead,
+	includefoot,
+	heightrounded,
+]{geometry}
+
+% Headers and footers
+\usepackage{fancyhdr}
+\fancyhf{}
+\pagestyle{fancy}
+\fancyhead[L]{AP Statistics}
+\fancyhead[R]{Elite Prep Arcadia}
+\fancyfoot[C]{\thepage}
+
+% Tcolorbox
+\usepackage{tcolorbox}
+\tcbset{
+	colback=gray!5!white,
+	colframe=gray!75!black,
+	fonttitle=\bfseries
+}
+\newtcolorbox{definition}{
+    title=Definition,
+}
+
+% Utility packages
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{multicol}
+
+% Insert Images
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+
+% Exercise environment
+\newtheorem*{remark}{Remark}
+\theoremstyle{definition}
+\newtheorem{ex}{Exercise}
+
+% Custom commands
+
+\begin{document}
+
+\section{The Mean}
+\begin{definition}
+    The \textbf{mean (arithmetic mean)} is one of the most common measures of 
+    center of a data set in statistics. The mean of a data set representing an 
+    entire population is called a \textbf{population mean} and is denoted $\mu$. 
+\end{definition}
+\noindent The mean can be calculated by the formula 
+\[
+    \mu = \frac{1}{N}\sum x_i  
+\]
+where the sum is taken over the entire data set and $N$ represents the
+population size. The mean of a data set representing a sample from a population 
+is called a \textbf{sample mean} and is denoted $\bar{x}$. The formuala for 
+sample mean is identical to the formula for population mean 
+\[
+    \bar{x} = \frac{1}{n}\sum x_i
+\]
+except that the sum is taken over the sample data set and $n$ represents the
+sample size.
+
+\end{document}
+
