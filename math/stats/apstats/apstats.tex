@@ -20,8 +20,8 @@
 % Tcolorbox
 \usepackage{tcolorbox}
 \tcbset{
-	colback=gray!5!white,
-	colframe=gray!75!black,
+	colback=cyan!5!white,
+	colframe=cyan!75!black,
 	fonttitle=\bfseries
 }
 \newtcolorbox{definition}{
@@ -42,6 +42,7 @@
 \newtheorem{ex}{Exercise}
 
 % Custom commands
+\newcommand{\secend}[0]{\noindent\rule[0.5ex]{\linewidth}{1pt}} 
 
 \begin{document}
 
@@ -50,6 +51,7 @@
     \textbf{Categorical Variables} represent data that can be divided into different
     groups.
 \end{definition}
+
 \noindent Common examples of categorical data include ethnicity, income level,
 education, age group, and gender. Categories are described by words or letters.
 Categorical data is much harder to analyze mathematically than numerical data.
@@ -58,10 +60,13 @@ Categorical data is much harder to analyze mathematically than numerical data.
     measurement. Quantitative data can be either \textbf{discrete} or
     \textbf{continuous}.
 \end{definition}
+
 \noindent Common examples of quantitative data include height, weight, income, age, and
 cost. If data set can only take on specific values (e.g. integer values), then
 the data set is discrete. If the data is not restricted to specific values, then
-the data set is continuous.
+the data set is continuous. 
+
+\secend
 
 \section{Sampling}
 Gathering the data on an entire population may be virtually impossible due to
@@ -69,10 +74,12 @@ limitations in time and cost. Instead, a \textbf{sample} of the population will
 be studied. The sample must be representative of the population being sampled in
 order for any statistical inference to be made. Random sampling is used to to
 create samples that minimize any bias from the sampling process. 
+
 \begin{definition}
     A \textbf{simple random sample (SRS)} is a sampling method in which each
     member of a population has an equal chance of being selected.
 \end{definition}
+
 \noindent In practice, it may be difficult to achieve a random sample. Care must be taken
 to eliminate biases that arise in a sampling process. Many data selection
 methods are not truly random. Random number generators can be powerful tools to
@@ -80,15 +87,53 @@ add randomization to the sampling process. Two other common types of sampling me
 stratified sampling and cluster sampling. Introductory statistics assumes a simple random 
 sampling process.
     
+\secend
+
 \section{Histograms}
 \begin{definition}
     A \textbf{Histogram} is a bar chart representing how many data points are
     present in each specified interval.
 \end{definition}
 
-\section{Percentiles}
+\noindent To construct a histogram from a data set:
+\begin{enumerate}
+    \item Determine number of bins.
+    \item Find the bin width and determine the bin intervals.
+    \item Count the number of data points per bin.
+    \item Plot data point counts vs bins on a bar graph.
+\end{enumerate}
 
-\section{Box Plots}
+\secend
+
+\section{Percentiles}
+\begin{definition}
+    \textbf{Percentiles} measure the location of data relative to the entire
+    data set. The $k$th percentile is a score below which $k$ percent of the
+    data falls below.
+    \tcblower
+    The 25th percentiles is called the \textbf{first quartile} $Q_1$. The 50th
+    percentile is called the \textbf{median} or \textbf{second quartile} $Q_2$.
+    The 75th percentile is called the \textbf{third quartile} $Q_3$.
+\end{definition}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{boxplot.png}
+\end{figure}
+
+\begin{definition}
+    A \textbf{box plot} is a diagram representing five values: the minimum,
+    maximum, and the three quartiles.
+    \tcblower
+    To calculate a box plot on a TI-84 calculator:
+    \begin{enumerate}
+        \item STAT EDIT. Fill a list with values. 
+        \item Press STAT and arrow to CALC
+        \item 1-VarStats. Choose list with values entered. ENTER 
+    \end{enumerate}
+\end{definition}
+
+\secend
 
 \section{Statistical Mean}
 \begin{definition}
@@ -96,29 +141,47 @@ sampling process.
     center of a data set in statistics. The mean of a data set representing an 
     entire population is called a \textbf{population mean} and is denoted $\mu$. 
 \end{definition}
+
 \noindent The mean can be calculated by the formula 
 \[
-    \mu = \frac{1}{N}\sum x_i  
+    \mu = \frac{1}{N}\sum x
 \]
 where the sum is taken over the entire data set and $N$ represents the
 population size. The mean of a data set representing a sample from a population 
 is called a \textbf{sample mean} and is denoted $\bar{x}$. The formuala for 
 sample mean is identical to the formula for population mean 
 \[
-    \bar{x} = \frac{1}{n}\sum x_i
+    \bar{x} = \frac{1}{n}\sum x
 \]
 except that the sum is taken over the sample data set and $n$ represents the
-sample size. For datasets described by histograms, the population mean formula
-takes the form
+sample size. For datasets described by frequency tables or histograms, 
 \[
-    \mu = \sum (RF_i) x_i
+    \mu = \frac{\sum f m}{\sum f}
 \]
-where $RF_i$ is the relative frequency of the data point $x_i$.
+where $f$ is the frequency of the interval and $m$ is the midpoint of the
+interval.
 
-\section{Skewness}
+\secend
 
+\section{Standard Deviation}
+\begin{definition}
+    The \textbf{standard deviation} provides a measure of the overall variation
+    in a data set. The standard deviation can be used to determine whether a
+    data value is close to or far away from the mean.
+\end{definition}
 
-
+\noindent The \textbf{population standard deviation} $\sigma$ is computed by the
+formula
+\[
+    \sigma = \sqrt{\frac{\sum(x-\mu)^2}{N}}
+\]
+where $\mu$ is the population mean and $N$ is the population size. The
+\textbf{sample standard deviation} $s$ has a similar formula 
+\[
+    s = \sqrt{\frac{\sum(x-\bar{x})^2}{n-1}}
+\]
+where $\bar{x}$ is the sample mean and $n$ is the sample size. Observe that the
+denominator is $n-1$ not $n$. 
 
 
 
