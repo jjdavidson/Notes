@@ -17,11 +17,14 @@
 \fancyhead[R]{Elite Prep Arcadia}
 \fancyfoot[C]{\thepage}
 
+% Colors
+\usepackage[dvipsnames]{xcolor} 
+
 % Tcolorbox
 \usepackage{tcolorbox}
 \tcbset{
-	colback=cyan!5!white,
-	colframe=cyan!75!black,
+	colback=RoyalBlue!5!white,
+	colframe=RoyalBlue!75!black,
 	fonttitle=\bfseries
 }
 \newtcolorbox{definition}{
@@ -43,10 +46,16 @@
 
 % Custom commands
 \newcommand{\secend}[0]{\noindent\rule[0.5ex]{\linewidth}{1pt}} 
+\newcommand{\set}[1]{\{#1\}} 
+\newcommand{\mand}[0]{\quad\text{and}\quad} 
+
+
+
+
 
 \begin{document}
 
-\section{Data}
+\section*{Data}
 \begin{definition}
     \textbf{Categorical Variables} represent data that can be divided into different
     groups.
@@ -61,14 +70,13 @@ Categorical data is much harder to analyze mathematically than numerical data.
     \textbf{continuous}.
 \end{definition}
 
-\noindent Common examples of quantitative data include height, weight, income, age, and
-cost. If data set can only take on specific values (e.g. integer values), then
-the data set is discrete. If the data is not restricted to specific values, then
-the data set is continuous. 
-
+\noindent Quantitative data includes height, weight, income, age, and
+cost. A discrete data set can only take on specific values (e.g. integer
+values). If the data is not restricted to specific values, then the data set is 
+continuous. 
 \secend
 
-\section{Sampling}
+\section*{Sampling}
 Gathering the data on an entire population may be virtually impossible due to
 limitations in time and cost. Instead, a \textbf{sample} of the population will
 be studied. The sample must be representative of the population being sampled in
@@ -80,32 +88,30 @@ create samples that minimize any bias from the sampling process.
     member of a population has an equal chance of being selected.
 \end{definition}
 
-\noindent In practice, it may be difficult to achieve a random sample. Care must be taken
-to eliminate biases that arise in a sampling process. Many data selection
-methods are not truly random. Random number generators can be powerful tools to
-add randomization to the sampling process. Two other common types of sampling methods are 
-stratified sampling and cluster sampling. Introductory statistics assumes a simple random 
-sampling process.
-    
+\begin{remark}
+In practice, it may be difficult to achieve a random sample. Random number 
+generators can be powerful tools to add randomization to the sampling process. 
+Two other common types of sampling methods are stratified sampling and cluster 
+sampling. Introductory statistics assumes a simple random sampling process.
+\end{remark}
 \secend
 
-\section{Histograms}
+\section*{Histograms}
 \begin{definition}
     A \textbf{Histogram} is a bar chart representing how many data points are
     present in each specified interval.
+    \tcblower
+    \noindent To construct a histogram from a data set:
+    \begin{enumerate}
+        \item Determine number of bins.
+        \item Find the bin width and determine the bin intervals.
+        \item Count the number of data points per bin.
+        \item Plot data point counts vs bins on a bar graph.
+    \end{enumerate}
 \end{definition}
-
-\noindent To construct a histogram from a data set:
-\begin{enumerate}
-    \item Determine number of bins.
-    \item Find the bin width and determine the bin intervals.
-    \item Count the number of data points per bin.
-    \item Plot data point counts vs bins on a bar graph.
-\end{enumerate}
-
 \secend
 
-\section{Percentiles}
+\section*{Percentiles}
 \begin{definition}
     \textbf{Percentiles} measure the location of data relative to the entire
     data set. The $k$th percentile is a score below which $k$ percent of the
@@ -125,17 +131,31 @@ sampling process.
     A \textbf{box plot} is a diagram representing five values: the minimum,
     maximum, and the three quartiles.
     \tcblower
-    To calculate a box plot on a TI-84 calculator:
+    To calculate the box plot values on a TI-84 calculator:
     \begin{enumerate}
-        \item STAT EDIT. Fill a list with values. 
+        \item Press STAT. Choose 1-EDIT. Fill a list with values. 
         \item Press STAT and arrow to CALC
-        \item 1-VarStats. Choose list with values entered. ENTER 
+        \item Choose 1-VarStats. Choose list with values entered. ENTER 
+    \end{enumerate}
+    To plot the boxplot on a TI-84 calculator:
+    \begin{enumerate}
+        \item STAT EDIT. Fill a list with values.
+        \item Press 2ND STATPLOT. Turn on the plot. Select box plot icon.
+        \item Press ZOOM and choose 9-Stat
+        \item Press TRACE and use arrow keys to view Min, $Q_1$, $Q_2$, $Q_3$
+            and Max.
     \end{enumerate}
 \end{definition}
 
+\begin{remark}
+To calculate percentiles by hand, the data needs to be sorted. The
+data point that marks the $k$th percentile is at the $kN$ index of the sorted
+array. Non-integer indices are rounded up. For example, in a data set $N=470$,
+the index of the data point representing the $65$th percentile is 306. 
+\end{remark}
 \secend
 
-\section{Statistical Mean}
+\section*{Statistical Mean}
 \begin{definition}
     The \textbf{mean (arithmetic mean)} is one of the most common measures of 
     center of a data set in statistics. The mean of a data set representing an 
@@ -159,11 +179,10 @@ sample size. For datasets described by frequency tables or histograms,
     \mu = \frac{\sum f m}{\sum f}
 \]
 where $f$ is the frequency of the interval and $m$ is the midpoint of the
-interval.
-
+interval. \\
 \secend
 
-\section{Standard Deviation}
+\section*{Standard Deviation}
 \begin{definition}
     The \textbf{standard deviation} provides a measure of the overall variation
     in a data set. The standard deviation can be used to determine whether a
@@ -183,11 +202,267 @@ where $\mu$ is the population mean and $N$ is the population size. The
 where $\bar{x}$ is the sample mean and $n$ is the sample size. Observe that the
 denominator is $n-1$ not $n$. 
 
+\begin{tcolorbox}
+    To calculate the descriptive statistics of a data set:
+    \begin{enumerate}
+        \item Press STAT. Choose 1-EDIT. Fill a list with values. 
+        \item Press STAT and arrow to CALC
+        \item Choose 1-VarStats. Choose list with values entered. ENTER 
+    \end{enumerate}
+    The window will list the average, sum of the elements, sum of the
+    squares of the elements, sample standard deviation, population standard
+    deviation, number of elements, minimum, first quartile, median, third
+    quartile, and max value.
+\end{tcolorbox}
 
+\secend
 
+\section*{Probability}
+\begin{definition}
+    In an experiment there are different possible outcomes. \textbf{Probability}
+    measures how likely an outcome will occur. Probabilities take on values
+    between 0 and 1.
+\end{definition}
 
+\noindent The \textbf{sample space} of an experiment is the set of all possible 
+outcomes. An \textbf{event} is a set of outcomes. There are two ways to build up 
+events from outcomes. The \textbf{OR} event, denoted mathematically as 
+$A \cup B$, is an event containing outcome of $A$ or $B$ or both. The \textbf{AND}
+event, denoted mathematically as $A \cap B$, is an event containing outcomes shared
+by $A$ and $B$. The \textbf{complement} of an event $A$ is denoted $\neg A$ and 
+consists of all the outcomes in the sample space not in event $A$.
 
+\begin{definition}
+    The \textbf{conditional probability} of event $A$ given $B$, denoted 
+    $P(A|B)$, is the probability that event $A$ will occur if the sample space
+    were restricted to event $B$.
+\end{definition}
 
+\noindent If the outcomes in a finite sample space of size $N$ are equally 
+likely, then then the probability any one outcome $x$ occuring is given by the 
+formula
+\[
+    P(x) = \frac{1}{N}
+\]
+The probability of an event $A$ when all outcomes are equally likely is given by
+the formula
+\[
+    P(A) = \frac{|A|}{N}
+\]
+where $|A|$ denotes the number of outcomes in event $A$. Finding probabilities
+reduces to a counting problem. Computations of probabilities of more general
+experiments require applications of the multiplication and addition principles.
+
+\begin{definition}
+    The \textbf{multiplication principle} is used for computing probabilites of
+    AND events.
+    \[
+        P(A \cap B) = P(A)P(B|A)
+    \]
+    The \textbf{addition principle} is used for computing probabilities of OR
+    events.
+    \[
+        P(A \cup B) = P(A)+P(B) - P(A \cap B)
+    \]
+\end{definition}
+
+\noindent The multiplication principle can also be seen as a definition for
+conditional probability
+\[
+    P(A|B) = \frac{P(A\cap B)}{P(B)}
+\]
+\secend
+
+\section*{Independence}
+\begin{definition}
+    Two events $A$ and $B$ are \textbf{mutually exclusive} if the events do not
+    share any outcomes. In mathematical notation, $A \cap B$ is empty.
+\end{definition}
+
+\begin{remark}
+    If events $A$ and $B$ are mutually exclusive, the addition principle becomes
+    \[
+        P(A \cup B) = P(A)+P(B)
+    \]
+\end{remark}
+
+\noindent A coinflip has a sample space of $\set{H,T}$. The events $\set{H}$ and
+$\set{T}$ are mutually exclusive. However, if event $\set{H}$ is observed (i.e.
+a coin toss comes up heads), then the conditional probability of observing event
+$\set{T}$ is 0. The original probability of event $\set{T}$ was 0.5, but
+observing event $\set{H}$ changed the probability of event $\set{T}$. Event
+$\set{T}$ is dependent on event $\set{H}$.
+
+\begin{definition}
+    Two events are \textbf{independent} if the observation of one event does not
+    affect the probability of another event and vice versa. Mathematically, the
+    two events must satisfy
+    \[
+        P(A|B) = P(A) \mand P(B|A) = P(B)
+    \]
+    Alternatively, two events are independent if 
+    \[
+        P(A|B) = P(A|\neg B) \mand P(B|A) = P(B|\neg A)
+    \]
+    \tcblower
+    If two events are not indepdent, they are said to be \textbf{dependent}.
+    Mutually exclusive events are dependent.
+\end{definition}
+
+\begin{remark}
+    If events $A$ and $B$ are independent, then the multiplication principle
+    becomes
+    \[
+        P(A \cap B) = P(A)P(B) 
+    \]
+\end{remark}
+\secend
+
+\section*{Contingency Tables}
+\begin{definition}
+    A \textbf{contingency table}, also called a \textbf{two way frequency
+    table}, represents the observed frequencies of two categorical variables.
+    The data is organized into a table where rows represent the different
+    categories of the first categorical variable and the columns represent the
+    different categories of the second categoical variable.
+\end{definition} 
+
+\noindent Row totals and column totals are added to a contingency table to make
+calculations of conditional probabilities simpler.     
+
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        &  $Y_1$ &  $Y_2$ &  $Y_3$ & total \\\hline
+        $X_1$ & 30 & 40 & 80 & 150 \\\hline
+        $X_2$ & 40 & 70 & 10 & 120 \\\hline
+        total & 70 & 110 & 90 & 270 \\\hline
+    \end{tabular}
+\end{center}
+
+\noindent In the contingency table above, there are two categoricl variables $X$ 
+and $Y$ with categories $\set{X_1,X_2}$ and $\set{Y_1,Y_2,Y_3}$ respectively.
+Conditional probabilities are the ratio of a cell with a row or column total.
+The conditioned variable determines whether a row or column total is used.
+\[
+    P(X_1|Y_2) = \frac{40}{110} \mand P(Y_2|X_1) =
+    \frac{40}{150}
+\]
+\secend
+
+\section*{Discrete Random Variables}
+\begin{definition}
+    A \textbf{random variable} is a variable whose possible values are numerical
+    outcomes of a random process. Random variables can be \textbf{continuous} or
+    \textbf{discrete}.
+    \tcblower
+    Random variables are determined by thier \textbf{probability
+    distribution}. For discrete random variables, the probability distribuition
+    lists the probability of each outcome of a random variable such that the sum
+    total of probabilities of the outcomes is 1.
+\end{definition}
+
+\noindent The probability distribution of a fair coin would be given by
+\[
+    P(H) = 0.5 \mand P(T) = 0.5
+\]
+More generally, consider a single experiment with two outcomes, $success$ and
+$failure$, where $success$ has a probability of $p$. Such an experiment is
+called a \textbf{bernoulli trial}. The probability distribution is given by
+\[
+    P(success) = p \mand P(failure) = 1-p
+\]
+Random variables with this type or probability distribution are called
+\textbf{bernoulli random variables}. \\
+\secend
+
+\section*{Expected Value and Variance}
+\begin{definition}
+    The \textbf{expected value} of a random variable $X$ is a weighted average of
+    the possible outcomes. Mathematically,
+    \[
+        \mathbb{E}[X] = \sum x P(x)
+    \]
+    Informally, the expected value represents the average outcome of the
+    experiment if the experiment were done many times.
+\end{definition}
+
+\noindent A slot machine has the following probability distribution function for
+net winnings
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        payout & -\$2.00 & \$1.00 & \$10.00 &  \$100.00 \\\hline
+        probability & 0.90 & 0.06 & 0.03 & 0.01 \\\hline
+    \end{tabular}
+\end{center}
+\noindent The expected value (i.e. the expected winnings) of the slot machine is
+\[
+    \mathbb{E}[X] = -2.00(0.9) + 1.00(0.06) + 10.00(0.03) + 100.00(0.01) = -0.17
+\]
+
+\begin{definition}
+    The \textbf{variance} of a random variable $X$ is a weighted average of the
+    squared deviations of the possible outcomes from the mean. Mathematically, 
+    \[
+        \sigma^2 = \sum (x-\mu)^2 P(x)
+    \]
+    Informally, the variance measures how spread out the outcomes are relative
+    to each other. In statistics, its more common to use the standard
+    deviation $\sigma$.
+\end{definition}
+
+\begin{remark}
+    When the outcomes of a random variable are all equally likely, the expected
+    value reduces to the familiar formula for statistical mean.
+\end{remark}
+
+\secend
+
+\section*{Binomial Random Variables}
+\begin{definition}
+    When a bernoulli trial with probability $p$ of success is repeated $n$ 
+    times, a \textbf{binomial experiment} is performed. The outcomes of a 
+    binomial experiment are the number of successes in the experiment. 
+    \tcblower
+    The \textbf{binomial distribution}, denoted $B(n,p)$, is the probability
+    distribution of a binomial experiment. The mean and standard deviation of
+    the binomial distribution are
+    \[
+        \mu = np \mand \sigma = \sqrt{np(1-p)}
+    \]
+\end{definition}
+
+\secend
+
+\section*{Geometric Random Variables}
+\begin{definition}
+    
+\end{definition}
 
 \end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
