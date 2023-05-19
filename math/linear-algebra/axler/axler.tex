@@ -13,21 +13,27 @@
 \usepackage{fancyhdr}
 \fancyhf{}
 \pagestyle{fancy}
-\fancyhead[R]{Linear Algebra}
-\fancyfoot[R]{Written by Jonathan Davidson}
+\fancyhead[L]{Linear Algebra Done Right}
+\fancyhead[R]{\rightmark}
+\fancyfoot[L]{Notes by Jonathan Davidson}
+\fancyfoot[C]{\thepage}
 
 % Colors
 \usepackage[dvipsnames]{xcolor} 
 
 % Tcolorbox
 \usepackage{tcolorbox}
-\tcbset{
+\newtcolorbox[auto counter,number within=section]{defn}[1]{
 	colback=NavyBlue!5!white,
 	colframe=NavyBlue!75!black,
-	fonttitle=\bfseries
+	fonttitle=\bfseries,
+    title=Definition~\thetcbcounter. #1
 }
-\newtcbox{definition}[1]{
-    title={#1},
+\newtcolorbox[auto counter,number within=section]{thm}[1]{
+	colback=Mahogany!5!white,
+	colframe=Mahogany!75!black,
+	fonttitle=\bfseries,
+    title=Theorem.~\thetcbcounter: #1
 }
 
 % Math symbols and theorem environment 
@@ -46,6 +52,7 @@
 % Custom commands
 \newcommand{\real}{\mathbb{R}} 
 \newcommand{\complex}{\mathbb{C}} 
+\newcommand{\field}{\mathbb{F}} 
 \newcommand{\set}[2]{\left\{#1\;\vert\;#2\right\}}
 
 % DOCUMENT
@@ -56,14 +63,52 @@ In linear algebra, complex numbers are necessary for classifying the basic types
 of linear transformations in terms of their eigenvalues. Eigenvalues arise as
 solutions to certain polynomial equations.
 
-\begin{tcolorbox}[title=Complex Numbers]
+\begin{defn}{complex numbers}
     A \textbf{complex number} is an ordered pair $(a,b)$ of real numbers.
     Complex numbers are often written as $a+bi$. The set of all complex numbers
     is denoted $\complex$.
     \[
         \complex = \set{a+bi}{a,b\in\real}
     \]
-\end{tcolorbox}
+    \textbf{Addition} and \textbf{multiplication} on $ \complex $ are defined by
+    \begin{gather*}
+        (a+bi) + (c+di) = (a+c) + (b+d)i \\
+        (a+bi)(c+di) = (ac-bd) + (ad+bc)i
+    \end{gather*}
+\end{defn}
 
+\noindent The complex numbers $ a+0i $ can be identified with the real numbers $ \real
+$. Using multiplication as defined above, it is easy to see that $ i^2 = -1 $.
+The complex numbers inherit almost all the properties from the real numbers.
+\begin{description}
+    \item[ \textbf{Commutativity}] $ \alpha+\beta = \beta +\alpha $ and $ 
+        \alpha\beta = \beta\alpha $ for all $ \alpha,\beta\in\complex $ 
+    \item[ \textbf{Associativity}] $ (\alpha+\beta)+\gamma = 
+        \alpha+(\beta+\gamma) $ and $ (\alpha\beta)\gamma =
+        \alpha(\beta\gamma) $ for all $ \alpha,\beta,\gamma\in\complex $ 
+    \item[ \textbf{Identities}] $ \alpha+0 = \alpha $ and $ \alpha 1 = \alpha $
+        for all $ \alpha\in\complex $ 
+    \item[ \textbf{Additive Inverse}] for every $\alpha\in\complex$, there is a
+        unique $ -\alpha\in\complex $ such that $ \alpha +(-\alpha) = 0 $ 
+    \item[ \textbf{Multiplicative Inverse}] for every $\alpha\in\complex$, there is a
+        unique $ \alpha^{-1}\in\complex $ such that $ \alpha\alpha^{-1} = 1 $ 
+    \item[ \textbf{Distributive Property}] $ \gamma(\alpha+\beta) = \gamma\alpha 
+        + \gamma\beta$ for all $ \alpha,\beta,\gamma\in\complex $ 
+\end{description}
+
+\noindent These properties for addition and multiplication on the complex 
+numbers define a field. Both $ \complex $ and $ \real $ are fields. Most 
+theorems in linear algebra hold for fields, so all further statements will use 
+the terminology $ \field $ to refer to either $ \complex $ or $ \real $.
+
+\begin{defn}{$n$-tuples}
+    Let $ n $ be a nonnegative integer. An \textbf{$n$-tuple} is an ordered list
+    of $ n $ elements.
+    \[
+        (x_1,x_2,\dots,x_n)
+    \]
+    Two lists are equal if and only if they have the same length and the same
+    elements in the same order.
+\end{defn}
 \end{document}
 
