@@ -1,6 +1,8 @@
-\documentclass{article} 
+\documentclass{book} 
 
-% Document layout
+% ------------------------------------------------------------------------------
+% Page Layout
+% ------------------------------------------------------------------------------
 \usepackage[
 	margin=0.75in,
 	headheight=17pt,
@@ -9,106 +11,840 @@
 	heightrounded,
 ]{geometry}
 
-% Headers and footers
 \usepackage{fancyhdr}
 \fancyhf{}
 \pagestyle{fancy}
-\fancyhead[L]{Linear Algebra Done Right}
+\fancyhead[L]{\leftmark}
 \fancyhead[R]{\rightmark}
+\fancyfoot[R]{Linear Algebra Done Right}
 \fancyfoot[L]{Notes by Jonathan Davidson}
 \fancyfoot[C]{\thepage}
 
-% Colors
-\usepackage[dvipsnames]{xcolor} 
+\usepackage[Lenny]{fncychap} 
 
+% ------------------------------------------------------------------------------
 % Tcolorbox
+% ------------------------------------------------------------------------------
+% Color palette: RawSienna Orange TealBlue RoyalBlue Blue
+\usepackage[dvipsnames]{xcolor} 
 \usepackage{tcolorbox}
-\newtcolorbox[auto counter,number within=section]{defn}[1]{
-	colback=NavyBlue!5!white,
-	colframe=NavyBlue!75!black,
+\newtcolorbox{definition}[1]{
+	colback=RoyalBlue!5!white,
+	colframe=RoyalBlue!75!black,
 	fonttitle=\bfseries,
-    title=Definition~\thetcbcounter. #1
+    title=#1
 }
-\newtcolorbox[auto counter,number within=section]{thm}[1]{
-	colback=Mahogany!5!white,
-	colframe=Mahogany!75!black,
+\newtcolorbox[auto counter,number within=chapter]{thm}[1]{
+	colback=TealBlue!5!white,
+	colframe=TealBlue!95!black,
 	fonttitle=\bfseries,
-    title=Theorem.~\thetcbcounter: #1
+    title=Theorem~\thetcbcounter: #1
+}
+\newtcolorbox[auto counter,number within=chapter]{problem}{
+    colback=Blue!5!white,
+    colframe=Blue!65!black,
+    fonttitle=\bfseries,
+    title=Problem~\thetcbcounter
 }
 
-% Math symbols and theorem environment 
+% ------------------------------------------------------------------------------
+% Utility Packages
+% ------------------------------------------------------------------------------
 \usepackage{amsmath,amsthm,amssymb}
-
-% Multiple columns
 \usepackage{multicol}
-
-% Adjust enumerated lists
 \usepackage[shortlabels]{enumitem} 
 
-% Insert Images
-\usepackage{graphicx}
-\graphicspath{ {./images/} }
-
-% Custom commands
+% ------------------------------------------------------------------------------
+% Macros
+% ------------------------------------------------------------------------------
+\newcommand{\integer}{\mathbb{Z}}
 \newcommand{\real}{\mathbb{R}} 
 \newcommand{\complex}{\mathbb{C}} 
 \newcommand{\field}{\mathbb{F}} 
+\newcommand{\poly}{\mathcal{P}}
 \newcommand{\set}[2]{\left\{#1\;\vert\;#2\right\}}
 
-% DOCUMENT
+\newtheorem*{soln}{Solution}
+\theoremstyle{definition}
+\newtheorem*{example}{Example}
+
+\DeclareMathOperator{\linspan}{Span}
+
+% ------------------------------------------------------------------------------
+% Document
+% ------------------------------------------------------------------------------
 \begin{document}
-\section{Vector Spaces}
+
+% ------------------------------------------------------------------------------
+% Chapter 1: Vector Spaces
+% ------------------------------------------------------------------------------
+\chapter{Vector Spaces}
+
+% ------------------------------------------------------------------------------
+% Section 1.1: Real and complex euclidean spaces
+% ------------------------------------------------------------------------------
+\section{$\real^n$ and $\complex^n$}
 Linear algebra is the study of linear maps on finite dimensional vector spaces.
 In linear algebra, complex numbers are necessary for classifying the basic types
 of linear transformations in terms of their eigenvalues. Eigenvalues arise as
 solutions to certain polynomial equations.
 
-\begin{defn}{complex numbers}
+\begin{definition}{Complex Numbers}
     A \textbf{complex number} is an ordered pair $(a,b)$ of real numbers.
     Complex numbers are often written as $a+bi$. The set of all complex numbers
     is denoted $\complex$.
     \[
         \complex = \set{a+bi}{a,b\in\real}
     \]
-    \textbf{Addition} and \textbf{multiplication} on $ \complex $ are defined by
+    \textbf{Addition} and \textbf{multiplication} on $\complex$ are defined by
     \begin{gather*}
         (a+bi) + (c+di) = (a+c) + (b+d)i \\
         (a+bi)(c+di) = (ac-bd) + (ad+bc)i
     \end{gather*}
-\end{defn}
+\end{definition}
 
-\noindent The complex numbers $ a+0i $ can be identified with the real numbers $ \real
-$. Using multiplication as defined above, it is easy to see that $ i^2 = -1 $.
+\noindent The complex numbers $a+0i$ can be identified with the real numbers 
+$\real$. Using multiplication as defined above, it is easy to see that $i^2=-1$.
 The complex numbers inherit almost all the properties from the real numbers.
 \begin{description}
-    \item[ \textbf{Commutativity}] $ \alpha+\beta = \beta +\alpha $ and $ 
-        \alpha\beta = \beta\alpha $ for all $ \alpha,\beta\in\complex $ 
-    \item[ \textbf{Associativity}] $ (\alpha+\beta)+\gamma = 
-        \alpha+(\beta+\gamma) $ and $ (\alpha\beta)\gamma =
-        \alpha(\beta\gamma) $ for all $ \alpha,\beta,\gamma\in\complex $ 
-    \item[ \textbf{Identities}] $ \alpha+0 = \alpha $ and $ \alpha 1 = \alpha $
-        for all $ \alpha\in\complex $ 
+    \item[ \textbf{Commutativity}] $\alpha+\beta=\beta+\alpha$ and 
+        $\alpha\beta = \beta\alpha$ for all $\alpha,\beta\in\complex$ 
+    \item[ \textbf{Associativity}] $(\alpha+\beta)+\gamma = 
+        \alpha+(\beta+\gamma)$ and $(\alpha\beta)\gamma =
+        \alpha(\beta\gamma)$ for all $\alpha,\beta,\gamma\in\complex$ 
+    \item[ \textbf{Identities}] $\alpha+0 = \alpha$ and $\alpha 1 = \alpha$
+        for all $\alpha\in\complex$ 
     \item[ \textbf{Additive Inverse}] for every $\alpha\in\complex$, there is a
-        unique $ -\alpha\in\complex $ such that $ \alpha +(-\alpha) = 0 $ 
+        unique $-\alpha\in\complex$ such that $\alpha +(-\alpha) = 0$ 
     \item[ \textbf{Multiplicative Inverse}] for every $\alpha\in\complex$, there is a
-        unique $ \alpha^{-1}\in\complex $ such that $ \alpha\alpha^{-1} = 1 $ 
-    \item[ \textbf{Distributive Property}] $ \gamma(\alpha+\beta) = \gamma\alpha 
-        + \gamma\beta$ for all $ \alpha,\beta,\gamma\in\complex $ 
+        unique $\alpha^{-1}\in\complex$ such that $\alpha\alpha^{-1} = 1$ 
+    \item[ \textbf{Distributive Property}] $\gamma(\alpha+\beta) = \gamma\alpha 
+        + \gamma\beta$ for all $\alpha,\beta,\gamma\in\complex$ 
 \end{description}
 
 \noindent These properties for addition and multiplication on the complex 
-numbers define a field. Both $ \complex $ and $ \real $ are fields. Most 
+numbers define a field. Both $\complex$ and $\real$ are fields. Most 
 theorems in linear algebra hold for fields, so all further statements will use 
-the terminology $ \field $ to refer to either $ \complex $ or $ \real $.
+the terminology $\field$ to refer to either $\complex$  or $\real$.
 
-\begin{defn}{$n$-tuples}
-    Let $ n $ be a nonnegative integer. An \textbf{$n$-tuple} is an ordered list
-    of $ n $ elements.
+\begin{definition}{$n$-tuples and $\field^n$}
+    Let $n$ be a nonnegative integer. An \textbf{$n$-tuple} is an ordered list
+    of $n$ elements.
     \[
         (x_1,x_2,\dots,x_n)
     \]
     Two lists are equal if and only if they have the same length and the same
-    elements in the same order.
-\end{defn}
+    elements in the same order. The set of all $n$-tuples with elements in
+    $\field$ is denoted $\field^n$.
+    \[
+        \field^n = \set{(x_1,x_2,\dots,x_n)}{x_i\in\field\text{ for }i = 1,2,
+            \dots,n}
+    \]
+\end{definition}
+
+\noindent In the case of $n=0$, $\field^n$ consists of a single element $0$. This
+trivial space is defined to make the theorems consistent for all natural
+numbers. For $n\geq1$, $0\in\field^n$ is the $n$-tuple with all entries 0.
+\[
+    0 := (0,\dots,0)
+\]
+By convention, $n$-tuples in $\field^n$ will be represented by single variables
+and the components will use the same variable name along with a subscript to
+indicate position within the $n$-tuple.
+\[
+    x = (x_1,x_2,\dots,x_n)
+\]
+Geometrically, a $n$-tuple is represented by an arrow. $n$-tuples represent
+quantities that have direction and magnitude.
+
+\begin{definition}{Addition on $\field^n$}
+    \noindent \textbf{Addition} on $\field^n$ can be defined componentwise.
+    \[
+        x+y = (x_1+y_1,x_2+y_2,\dots,x_n+y_n)
+    \]
+\end{definition}
+
+\noindent Since addition is defined componentwise with respect to the base field
+$\field$, addition on $\field^n$ inherits many of the properties of addition on
+$\field$.
+
+\begin{description}
+    \item[ \textbf{Associativity}] $(x+y)+z = x+(y+z)$ for all $x,y,z\in\field^n$ 
+    \item[ \textbf{Commutativity}] $x+y = y+x$ for all $x,y\in\field^n$ 
+    \item[ \textbf{Additive Identity}] $x+0 = x$ for all $x\in\field$ 
+    \item[ \textbf{Additive Inverse}] for each $x\in\field^n$ there exists
+        $-x\in\field^n$ such that $x+(-x)=0$. The additive inverse is given
+        explicitly by $-x := (-x_1,-x_2,\dots,-x_n)$ 
+\end{description}
+
+\begin{definition}{Scalar Multiplication on $\field^n$}
+    Similarly, \textbf{scalar multiplication} with respect to the field $\field$
+    is defined componentwise.
+    \[
+        \lambda x = (\lambda x_1,\lambda x_2,\dots,\lambda x_n)
+    \]
+\end{definition}
+
+\noindent Elements of the field $\field$ are also called scalars, since
+scalar multiplication scales the length of $n$-tuples. Scalar multiplication also
+inherits many properties of multiplication of the base field $\field$.
+
+\begin{description}
+    \item[ \textbf{Associativity}] $(\alpha\beta)x = \alpha(\beta x)$ for all
+        $\alpha,\beta\in\field$ and all $x\in\field^n$
+    \item[ \textbf{Multiplicative Identity}] $1x = x$ for all $x\in\field^n$ 
+    \item[ \textbf{Distributive Property}] $\alpha(x+y) = \alpha x +\alpha y$ and
+        $(\alpha+\beta)x = \alpha x + \beta x$ for all $\alpha,\beta\in\field$
+        and all $x,y\in\field^n$  
+\end{description}
+\break
+
+\begin{problem}
+    Suppose $a=bi\neq0$. Find a complex number $c+di$ such that 
+    \[
+        (a+bi)^{-1} = c+di
+    \]
+\end{problem}
+
+\begin{soln}
+    By the definition of an inverse,
+    \[
+        (a+bi)(c+di) = 1+0i
+    \]
+    Applying the multiplcation formula for complex numbers and equating real and
+    imaginary parts,
+    \begin{gather*}
+        ac-bd=1 \\ bc+ad = 0
+    \end{gather*}
+    Solving this system of equations yields
+    \begin{equation*}
+        c = \frac{a}{a^2+b^2},\quad d = \frac{-b}{a^2+b^2} 
+    \end{equation*}
+\end{soln}
+
+\begin{problem}
+    Let $a+bi\in\complex$ with $b>0$. Find two square roots of $a+bi$. What 
+    happens if $b<0$?
+\end{problem}
+
+\begin{soln}
+    Any square root $x+yi$ of $a+bi$ satisfies the equation
+    \[
+        (c+di)^2 = a+bi
+    \]
+    Using the rules of complex multiplication and equating real and imaginary
+    parts leads to the system of equations
+    \begin{gather*}
+        c^2-d^2=a \\ 2cd=b
+    \end{gather*}
+    Notice that these equations imply $c^2+d^2=\sqrt{a^2+b^2}$. Therefore, the 
+    solution to the system of equations must satisfy
+    \begin{align*}
+        c^2 &= \frac{\sqrt{a^2+b^2}+a}{2} \\
+        d^2 &= \frac{\sqrt{a^2+b^2}-a}{2}
+    \end{align*}
+    The condition that $b>0$ implies that $cd>0$. Therefore, $c$ and $d$ must 
+    have the same sign. Thus, the two square roots of $a+bi$ are given by the
+    formula 
+    \[
+        \pm\left(\sqrt{\frac{\sqrt{a^2+b^2}+a}{2}} + 
+        i\sqrt{\frac{\sqrt{a^2+b^2}-a}{2}}\right)
+    \]
+    In the case that $b<0$, the argument above implies that $c$ and $d$ must
+    have opposite signs. Therefore, the two square roots are given by
+    \[
+        \pm\left(\sqrt{\frac{\sqrt{a^2+b^2}+a}{2}} - 
+        i\sqrt{\frac{\sqrt{a^2+b^2}-a}{2}}\right)
+    \]
+\end{soln}
+\break
+
+% ------------------------------------------------------------------------------
+% Section 1.2 Definition of Vector Spaces
+% ------------------------------------------------------------------------------
+\section{Definition of Vector Spaces}
+It turns out that many different types of mathematical objects share the same
+properties as $\field^n$. The notion of a vector space is meant to capture the
+essential properties of $\field^n$ without being restricted to the specific
+details of the mathematical object.
+
+\begin{definition}{Vector Space}
+    A \textbf{vector space} over the field $\field$ is a set $V$ along with an
+    \textbf{addition} $+:V\times V \to V$ and a \textbf{scalar multiplication}
+    $\cdot:\field \times V \to V$ that satisfy the following properties:
+    \begin{enumerate}[(a)]
+        \item Commutativity of Addition
+        \item Associativity of Addition and Scalar Multiplication
+        \item Additive and Multiplicative Identities
+        \item Additive Inverses
+        \item Distributive Property
+    \end{enumerate}
+    An element of a vector space is called a \textbf{vector}.
+\end{definition}
+
+\begin{example}
+    $\field^{\infty}$ is defined to be the set of all sequences of elements in
+    $\field$:
+    \[
+        \field^{\infty}:= \set{(x_1,x_2,\dots)}{x_j\in\field\text{ for }
+        j=1,2,\dots}
+    \]
+    Addition and scalar multiplication on $\field^{\infty}$ are defined as
+    \begin{gather*}
+        (x_1,x_2,\dots)+(y_1,y_2\dots) = (x_1+y_1,x_2+y_2,\dots) \\
+        \lambda(x_1,y_1,\dots) = (\lambda x_1, \lambda x_2,\dots)
+    \end{gather*}
+\end{example}
+
+\begin{example}
+    $\real^{[a,b]}$ is the set of all functions $f:[a,b]\to\real$ where addition
+    and scalar multiplication are defined pointwise:
+    \[
+        (f+g)(x) = f(x)+g(x) \\
+        (\lambda f)(x) = \lambda f(x)
+    \]
+    where $f,g \in \real^{[a,b]}$ and $\lambda\in\real$.
+\end{example}
+
+\begin{example}
+    $W[a,b]$ is the set of all differentiable functions $f:[a,b]\to\complex$ 
+    where addition and scalar multiplication are defined pointwise. This is a
+    vector space since the sum of two differentiable functions is differentiable 
+    and the a constant multiple of a differentiable functions is still
+    differentiable.
+\end{example}
+
+\begin{thm}{Properties of Vector Spaces}
+    \begin{enumerate}[(a)]
+        \item A vector space has a unique additive identity $0$.
+        \item Every element $v$ in a vector space has a unique additive inverse
+            $-v$.
+        \item For every $v\in V$, $0v=0$ 
+        \item For every $\lambda\in\field$, $\lambda 0 = 0$ 
+        \item For every $v\in V$, $(-1)v=-v$ 
+    \end{enumerate}
+\end{thm}
+
+\break
+
+\begin{problem}
+    Prove that $-(-v)=v$ for every $v\in V$.
+\end{problem}
+
+\begin{soln}
+    Using the associativity of scalar multiplcation and property (e) from
+    Theorem 1.1:
+    \begin{equation*}
+        -(-v) = -1(-v) = -1(-1v) = [(-1)(-1)]v = 1v = v
+    \end{equation*}
+\end{soln}
+
+\begin{problem}
+    The empty set is not a vector space. The empty set only fails one of the
+    requirements in the definition of a vector space. Which one?
+\end{problem}
+
+\begin{soln}
+    Commutativity, associativity, additive inverse, multiplicative identity,
+    and the distributive properties are vacuously true since there are no
+    elements of the empty set. However, the existence of an additive identity
+    can not be statisfied by the empty set since it contains no elements.
+\end{soln}
+
+\begin{problem}
+    Show that in the definition of a vector space, the additive inverse
+    condition can be replaced by the condition
+    \[
+        0v=0\text{ for all } v\in V
+    \]
+\end{problem}
+
+\begin{soln}
+    A condition can be replaced by another condition if the two statements are
+    logically equivalent. Property (c) of Theorem 1.1, proves one direction of the
+    logical equivalence. To prove the other direction, suppose $0v=v$ for all $v
+    \in V$. Then,
+    \begin{equation*}
+        0 = 0v = (-1+1)v = -1v+1v = -1v+v
+    \end{equation*}
+    Thus, for each vector $v\in V$ there is an additive inverse $-1v$. This
+    completes the proof. 
+\end{soln}
+
+\begin{problem}
+    Considered the extended real line $\real\cup\{-\infty\}\cup\{\infty\}$. For
+    $x,y\in\real$ the usual definitions for addition and multiplcation of real
+    numbers apply. For $x>0$ define
+    \begin{equation*}
+        (\pm x)\infty = \pm \infty,\qquad (\pm x) (-\infty) = \mp \infty
+    \end{equation*}
+    For $x= 0$ define $(0)\infty = (0)(-\infty) = 0$. For $x\in\real$, 
+    \begin{gather*}
+        x+\infty=\infty+x=\infty, \qquad x+(-\infty)=(-\infty)+x=-\infty \\
+        \infty +\infty = \infty, \qquad (-\infty)+(-\infty)=-\infty, \qquad
+        \infty+(-\infty)=0
+    \end{gather*}
+    Is the extended real line a vector space over $\real$?
+\end{problem}
+
+\begin{soln}
+    The extended real line is not a vector space over $\real$ since addition is
+    not associative. For example,
+    \begin{equation*}
+        -\infty+(\infty+1) = (-\infty+\infty) = 0
+    \end{equation*}
+    whereas
+    \begin{equation*}
+        (-\infty+\infty)+1 = 0+1 = 1
+    \end{equation*}
+\end{soln}
+
+\section{Subspaces}
+\begin{definition}{Subspaces}
+    A subset $U$ of a vector space $V$ is called a \textbf{subspace} of $V$ is
+    $U$ is also a vector space using the same addition and scalar multiplication
+    as on $V$.
+\end{definition}
+
+\begin{thm}{Conditions for a Subspace}
+    A set $u$ of $V$ is a subspace of $V$ if and only if $U$ satisfie the
+    following three conditions:
+    \begin{description}
+        \item[ \textbf{additive identity}] $0\in U$ 
+        \item[ \textbf{closed under addition}] $u,v\in U$ implies $u+v\in U$ 
+        \item[ \textbf{closed under scalar multiplcation}] $a\in\field$ and
+            $u\in U$ implies $au\in U$.
+    \end{description}
+\end{thm}
+
+\begin{proof}
+    If $U$ is a subspace of $V$, then $U$ satisfies the three conditions above
+    by the definition of a vector space. Conversely, suppose $U$ satisfies the
+    three conditions above. The first condition ensures that the additive
+    identity is in $U$. The second condition ensures addition is well defined.
+    The third condition ensures that scalar multiplication is well defined.
+
+    Moreover, associativity, commutativity, multiplicative identities, and
+    distributive properties are automatically satisfied by $U$ since they hold
+    in $V$. Lastly, closure of scalar multiplication ensures the additive
+    inverse $-v = -1v$ is contained in $U$. Thus, $U$ is a subspace. 
+\end{proof}
+
+\begin{example}
+    The set of continuous real-values fucnctions on the interval $[a,b]$ is a
+    subspace of $\real^{[a,b]}$ 
+\end{example}
+
+\begin{example}
+    The set of all sequences of complex numbers with limit 0 is a subspace of
+    $\complex^{\infty}$
+\end{example}
+
+\begin{definition}{Sum of Subsets}
+    Suppose $U_1,U_2,\dots,U_m$ are subsets of $V$. The \textbf{sum} of
+    $U_1,\dots,U_m$, denoted $U_1+\dots+U_m$, is the set of all possible sums of
+    elements of $U_1,U_2,\dots,U_m$. More precisely,
+    \[
+        U_1+\dots+U_m = \set{u_1+\dots+u_m}{u_1\in U_1,\dots,u_m\in U_m} 
+    \]
+\end{definition}
+
+\begin{example}
+    Let $U,V \in \field^3$ where $U = \set{(x,0,0)}{x\in\field}$ and $W =
+    \set{(0,y,0)}{y\in\field}$. Then,
+    \begin{equation*}
+        U+W = \set{(x,y,0)}{x,y\in\field} 
+    \end{equation*}
+\end{example}
+
+\begin{example}
+    Suppose that $U = \set{(x,x,y,y)\in\field^4}{x,y\in\field}$ and $W =
+    \set{(x,x,x,y)\in\field^4}{x,y\in\field}$. Then
+    \[
+        U+W = \set{(x,x,y,z)\in\field^4}{x,y,z\in\field} 
+    \]
+\end{example}
+
+\begin{thm}{Sum of Subspaces is the Smallest Containing Subspace}
+    Suppose $U_1,\dots,U_m$ are subspaces of $V$. Then, $U_1+\dots+U_m$ is the
+    smallest subspace of $V$ containing $U_1,\dots,U_m$.
+\end{thm}
+
+\begin{proof}
+    $0 = 0+\dots+0\in U_1,\dots,U_m$. Since $U_1,\dots,U_m$ are closed under
+    addition and scalar multiplication, it follows that their subset sum is also 
+    closed under addition and multiplication. Thus, $U_1+\dots+U_m$ is a
+    subspace of $V$ by Theorem 1.2.
+    Clearly, $U_i \in U_1+\dots+U_m$ for each $i = 1,\dots,m$. Conversely, ansy
+    subspace $U$ of $V$ containing $U_1,\dots,U_m$ must contain $U_1+\dots+U_m$
+    since subspaces must contain all finite sums of their elements. Therefore,
+    $U_1,\dots,U_m\subset U_1+\dots+U_m \subset U$.
+\end{proof}
+
+\begin{definition}{Direct Sum}
+    Suppose $U_1,\dots,U_m$ are subspaces of $V$. The sum $U_1+\dots+U_m$ is
+    called a \textbf{direct sum} if each element of $U_1+\dots+U_m$ can be
+    written uniquely as a sum
+    \[
+        u_1+\dots+u_m, \quad u_i\in U_i \text{ for } i=1,\dots,m
+    \]
+    A direct sum will be denoted by $U_1\oplus\dots\oplus U_m$.
+\end{definition}
+
+\begin{example}
+    Suppose $U_j$ is the subspace of $\field^n$ of vectors whose coordinates are
+    all 0 except for the $j$th coordinate.
+    \[
+        U_j = \set{(0,\dots,x_j,\dots,0)}{x_j\in\field} 
+    \]
+    Then, $\field^n = U_1\oplus\dots\oplus U_n$ 
+\end{example}
+
+\begin{example}
+    Let $U_1 = \set{(x,y,0)\in\field^3}{x,y\in\field}$, $U_2 =
+    \set{(0,0,z)\in\field^3}{z\in\field}$, $U_3 = \set{(0,y,y) 
+    \in\field^3}{y\in\field}$. Note that $U_1+U_2+U_3 = \field 3$, because every
+    vector in $\field^3$ can be written as 
+    \[
+        (x,y,z) = (x,y,0) + (0,0,z) + (0,0,0)
+    \]
+    However, $(0,0,0)$ can be written in many different ways as the sum
+    $u_1+u_2+u_3$. For example,
+    \[
+        (0,0,0) = (0,a,0)+(0,0,a)+(0,-a,-a)
+    \]
+    for any $a\in\field$. Therefore, $\field^3 \neq U_1 \oplus U_2 \oplus U_3$.
+    However, $\field^3 = U_1 \oplus U_2$.
+\end{example}
+
+\begin{thm}{Condition for Direct Sum}
+    Suppose $U_1,\dots,U_m$ are subspaces of $V$. Then, $U_1+\dots+U_m$ is a
+    direct sum if and only if the only way to write 0 as a sum $u_1+\dots+u_m$, 
+    where each $u_j\in U_j$, is by taking each $u_j=0$.
+\end{thm}
+
+\begin{proof}
+    Suppose $U_1+\dots+U_m$ is a direct sum. Then the definition of a direct sum
+    implies that the only way to write 0 as a sum $u_1+\dots+u_m$, where each
+    $u_j\in U_j$, is by taking each $u_j=0$.
+
+    Now suppose that the only way to write 0 as a sum $ u_1+\dots+u_m$, where
+    each $u_j\in U_j$, is by taking each $u_j=0$. Let $v\in U_1+\dots+U_m$. We
+    can write
+    \[
+        v = u_1+\dots+u_m
+    \]
+    for some $u_j\in U_j$. Suppose that $v$ had another representation
+    \[
+        v = v_1+\dots+v_m
+    \]
+    for some $v_j \in U_j$. Then,
+    \[
+        0 = (u_1-v_1)+\dots+(u_m-v_m)
+    \]
+    Since, $u_j-v_j \in U_j$ by the subspace property of each $U_j$, it follows
+    from the assumption that $u_j-v_j=0$. Thus, $u_1=v_1,\dots,u_1=v_1$. The
+    representation for $v$ is unique, so $U_1\oplus\dots\oplus U_m$ is a direct
+    sum.
+\end{proof}
+
+\begin{thm}{Direct Sum of Two Subspaces}
+    Suppose $U$ and $W$ are subspaces of $V$. Then, $U+W$ is a direct sum if and
+    only if $U\cap W = \{0\}$.
+\end{thm}
+
+\begin{proof}
+    Suppose that $U+W$ is a direct sum. If $v\in U\cap W$, then $0 = v+(-v)$,
+    where $v\in U$ and $-v\in W$. By the unique representation of 0, we have
+    $v=0$. Thus, $U \cap W =\{0\}$.
+
+    Now suppose, $U \cap W = \{0\}$. Let $u\in U$ and $w\in W$ such that
+    $0=u+w$. This equation implies $u=-w$. By closure of additive inverses,
+    $u\in U\cap W$. Hence, $u=0$ from the assumption. This also implies $w=0$.
+    Theorem 1.4 implies $U+W$ is a direct sum.
+\end{proof}
+\break
+
+\begin{problem}
+    Show that the set $U$ of differentiable functions $f:(-1,1)\to\real$ such 
+    that $f'(0) = f(0)$ is a subspace of $\real^{(-1,1)}$.
+\end{problem}
+
+\begin{soln}
+    0 is a differentiable function whose derivative is equal to its value at 0,
+    so $0\in U$. Suppose that $f,g \in U$. Then, $f+g$ is differentiable and
+    \[
+        (f+g)'(0) = f'(0)+g'(0) = f(0)+g(0) = (f+g)(0)
+    \]
+    Therefore, $f+g\in U$. Moreover, for any $c\in\real$
+    \[
+        (cf)'(0) = cf'(0) = cf(0) = (cf)(0)
+    \]
+    Thus, $cf\in U$. By Theorem 1.2, it follows that $U$ is a subspace.
+\end{soln}
+
+\begin{problem}
+    Is $\real^2$ a subspace of the complex vector space $\complex^2$?
+\end{problem}
+
+\begin{soln}
+    The underlying field of $\complex^2$ is $\complex$. The set $\real^2$ is not
+    closed with respect to scalar multiplication on $\complex$. For example,
+    $i(1,1) = (i,i)\notin\real$. Therefore, $\real^2$ is not a subspace of
+    $\complex^2$.
+\end{soln}
+
+\begin{problem}
+    Let $U_1 = \set{(a,b)\in\real^2}{a^3=b^3}$ and $U_2 =
+    \set{(a,b)\in\complex^2}{a^3=b^3}$. Is $U_1$ a subspace of $\real^2$? Is
+    $U_2$ a subspace of $\complex$?
+\end{problem}
+
+\begin{soln}
+    Over $\real$, the condition $a^3=b^3$ is equivalent to $a=b$. Thus, $U_1 =
+    \set{(a,a)\in\real^2}{a\in\real}$ is clearly a subspace of $\real^2$.
+    In the complex numbers, the 3rd root of unity $\omega\in\complex$ satisfies 
+    the property $\omega^3 = 1$. Therefore, $(1,1),(1,\omega)\in U_2$. However,
+    their sum, $(2,\omega+1)$, is not contained in $U_2$. Thus, $U_2$ is not a
+    subspace of $\complex^2$.
+\end{soln}
+
+\begin{problem}
+    Give an example of a nonempty subset $U\in\real^2$ that is closed under
+    addition and under taking inverses, but $U$ is not a subspace of $\real^2$.
+\end{problem}
+
+\begin{soln}
+    Consider the integer lattice $\integer^2:= \set{(a,b)}{a,b\in\integer}$.
+    This subset of $\real^2$ is closed under addition and taking additive
+    inverses, but is not closed under scalar multiplication (e.g. $\frac{1}{2}
+    (a,b)\notin \integer^2$ for $a$ or $b$ odd).
+\end{soln}
+
+\begin{problem}
+    Give an example of a nonempty subset $U$ of $\real^2$ such that $U$ is
+    closed under scalar multiplication, but $U$ is not a subspace of $\real^2$.
+\end{problem}
+
+\begin{soln}
+    Consider the set $U = \set{(a,b)\in\real^2}{ab=0}$. This is the set of
+    points in the cartesian plane where at least one coordinate is 0. This set
+    contains $0 = (0,0)$ and is closed under scalar multiplication. However,
+    $(1,0)$ and $(0,1)$ are in $U$, but their sum $(1,1)$ is not.
+\end{soln}
+
+\begin{problem}
+    Prove that the intersection of any collection of subspaces of $V$ is a
+    subspace.
+\end{problem}
+
+\begin{soln}
+    Suppose $U_a$ is a subspace of $V$ for all $a$ in some indexing set
+    $\Gamma$. $0\in U_a$ for all $a\in\Gamma$, so $0\in \bigcap_{a\in\Gamma}U_a$.
+    Furthermore, for any $x,y \in \bigcap_{a\in\Gamma}U_a$, $x,y\in U_a$ for each
+    $a\in\Gamma$. Therefore, $x+y \in U_a$ for each $a\in\Gamma$ since each
+    $U_a$ is a subspace. Thus, $x+y \in \bigcap_{a\in\Gamma}U_a$. Let $\lambda
+    \in \field$. For any $x \in \bigcap_{a\in\Gamma}U_a$, $x\in U_a$ for each
+    $a\in\Gamma$. Therefore, $\lambda x \in U_a$ for each $a\in\Gamma$ since each
+    $U_a$ is a subspace. Thus, $\lambda x \in \bigcap_{a\in\Gamma}U_a$. By
+    Theorem 1.2, $\bigcap_{a\in\Gamma}U_a$ is a subspace of $V$.
+\end{soln}
+
+\begin{problem}
+    Prove that the union of two subspaces of $V$ is a subspace of $V$ if and
+    only if one subspace is contained in the other subspace.
+\end{problem}
+
+\begin{soln}
+    Let $U,W$ be subspaces of $V$. Suppose, $U\cup W$ is a subspace of $V$.
+    For the sake of contradiction, assume neither $U$ or $W$ is contained in the
+    other subspace. Then, there exists elements $x\in U-W$ and $y\in
+    W-U$. By the closure of addition, $x+y \in U\cup W$, so $x+y$ is    
+    contained in either $U$, $W$, or both. If $x+y \in U$, then closure under 
+    addition implies $y = (x+y)+(-x) \in U$. This contradicts the definition
+    of $y$. Similarly, if $x+y \in W$, then closure under addition implies $x =
+    (x+y)+(-y) \in W$. This contradicts the definition of $x$. Therefore, the
+    initial assumption that neither $U$ or $W$ is contained in the other
+    subspace is false. This proves the forward direction. The proof in the other
+    direction is trivial.
+\end{soln}
+
+\begin{problem}
+    Prove that the union of three subspaces of $V$ is a subspace of $V$ if and 
+    only if one subspace contains two other subspaces.
+\end{problem}
+
+\begin{soln}
+    Let $U_1,U_2,U_3 \subset V$ be subspaces. Suppose $U_1 \cup U_2 \cup U_3$ is
+    a subspace of $V$.
+
+    If one of the subspaces contained another subspace, say $U_3 \subset U_2$, 
+    then $U_1 \cup U_2 \cup U_3 = U_1 \cup U_2$. Using the result from Problem 
+    1.13, it follows that $U_1 \subset U_2$ or $U_2 \subset U_1$. In either 
+    case, one subspace would contain two other subspaces. 
+
+    If no subspace is contained within any other subspace, then there exists
+    nonzero vectors $u_1 \in U_1-(U_2\cup U_3)$ and $u_2 \in U_2-(U_1\cup U_3)$.
+    Observe that $u_1+u_2,u_1-u_2 \in U_3 - (U_1\cup U_2)$. Closure under
+    addition implies $u_1, u_2\in U_3$, a contradiction. Thus, one subspace must
+    contain the other two subspaces. The proof in the other direction is trivial.
+\end{soln}
+
+\begin{problem}
+    Give an example of a vector space over a field other than $\real$ or
+    $\complex$ where Problem 1.14 fails.
+\end{problem}
+
+\begin{soln}
+    Consider the vector space $\field^2_2$ over the field $\field_2$. Consider
+    the subspaces 
+    \[
+        U_1 = \{(0,0),(1,0)\}, \quad U_2 = \{(0,0),(0,1)\}, \quad U_3 = 
+    \{(0,0),(1,1)\}
+    \]
+    None of these subspaces are proper subsets of eachother yet $\field^2_2 =
+    U_1\cup U_2 \cup U_3$. 
+\end{soln}
+
+% ------------------------------------------------------------------------------
+% Chapter 2: Finite Dimensional Vector Spaces
+% ------------------------------------------------------------------------------
+\chapter{Finite Dimensional Vector Spaces}
+
+% ------------------------------------------------------------------------------
+% Section 2.1: Span and Linear Independence
+% ------------------------------------------------------------------------------
+\section{Span and Linear Independence}
+
+\begin{definition}{Linear Combinations and Span}
+    A \textbf{linear combination} of a list $ v_1,\dots,v_m$ of vectors in $V$
+    is a vector of the form $a_1v_1+\dots+a_mv_m$ with $ a_1,\dots,a_m \in
+    \field$. The set of all linear combinations of a list $ v_1,\dots,v_m$ of 
+    vectors in $V$ is called the \textbf{span}. The span is denoted by
+    \[
+        \linspan(v_1,\dots,v_m) = \set{a_1v_1+\dots+a_mv_m}{a_1,\dots,a_m \in 
+        \field}
+    \]
+    The span of an empty list is defined to be the trivial subspace $\{0\}$.
+\end{definition}
+
+\begin{thm}{Span is Smallest Containing Subspace}
+    The span of a list of vectors in $V$ is the smallest subspace of $V$
+    containing all the vectors in the list.
+\end{thm}
+
+\begin{proof}
+    Suppose $v_1,\dots,v_m$ is a list of vectors in $V$. $\linspan(v_1,\dots,v_m)$
+    contains the additive identity, is closed under addion, and is closed under
+    scalar multiplication. By theorem 1.2, $\linspan(v_1,\dots,v_2)$ is a subspace
+    of $V$. Obviously, $v_i \in \linspan(v_1\dots,v_m)$ for each $i =1,\dots,m$.
+    Conversely, any subspace containing each $v_i$ must contain
+    $\linspan(v_1,\dots,v_m)$ since subspaces are closed under addition and scalar
+    multiplication. This completes the proof.
+\end{proof}
+
+\begin{definition}{Finite-Dimensional and Infinite-Dimensional}
+    If $\linspan(v_1,\dots,v_n) = V$, we say that $v_1,\dots,v_n$
+    \textbf{spans} $V$. A vector space is called \textbf{finite-dimensional} if
+    some finite list of vectors in it spans the space. If the vector space is
+    not finite-dimensional, then it is called \textbf{infinite-dimensional}.
+\end{definition}
+
+\begin{example}
+    Suppose $n$ is a positive integer. Let $e_i$ be a vector in $\field^n$ whose
+    $i$th component is 1 and the rest of the components are zero. Then for any
+    $x = (x_1,\dots,x_n) \in \field^n$, 
+    \[
+        x = x_1e_1+\dots+x_ne_n
+    \]
+    Therefore, the $\linspan(e_1,\dots,e_n) = \field^n$. The collection
+    $\{e_i\}$ of vectors is called the \textbf{standard basis} vectors of
+    $\field^n$. This result shows that $\field^n$ is a finite dimensional vector
+    space.
+\end{example}
+
+\begin{example}
+    Let $\poly$ denote the \textbf{vector space of polynomials}. The subspace 
+    $\poly_m$ is spanned by $1,z,\dots,z^m$ since any polynomial $p(z) \in 
+    \poly_m$ can be written as 
+    \[
+        p(z) = a_0 + a_1z + \dots + a_mz^m
+    \]
+    where $a_0,\dots,a_m \in \field$. Therefore, $\poly_m$ is a
+    finite-dimensional vector space. However, there is no finite list of
+    polynomials that can span $\poly$ since $\poly$ contains polynomials
+    unbounded in degree. Thus, $\poly$ is an infinite-dimensional vector space.
+\end{example}
+
+\begin{definition}{Linear Independence and Linear Dependence}
+    A list $v_1,\dots,v_m$ of vectors in $V$ is called \textbf{linearly
+    dependent} if the equation
+    \[
+        a_1v_1+\dots+a_mv_m = 0
+    \]
+    has a nontrivial solution. A list $v_1,\dots,v_m$ of vectors is called
+    \textbf{linearly independent} if it is not linearly dependent. The empty
+    list is defined to be linearly independent.
+\end{definition}
+
+\noindent Linear independence/dependence arises naturally in the discussion of
+representation of vectors via linear combinations. Suppose $v\in 
+\linspan(v_1,\dots,v_m)$. If $v$ has two representations then
+\begin{gather*}
+    v = a_1v_m + \dots + a_mv_m \\
+    v = b_1v_m + \dots + b_mv_m 
+\end{gather*}
+Subtracting two equations yields
+\[
+    0 = (a_1-b_1)v_1+\dots+(a_m-b_m)v_m
+\]
+If the vectors are linearly independent, this equation only has the trivial
+solution where $a_i-b_i = 0$ for all $i = 1,\dots,m$. This means that the two
+representations were in fact the same. Therefore, any representation of a vector
+by a linear combination of linearly independent list of vectors must be unique.
+Had the list of vectors been linearly dependent, then the multiple
+representations of the vector as a linear combination of the same list of
+vectors would be possible. In this sense, linearly dependent lists of vectors
+contain redundant information. The following lemma demonstrates that removing
+the redundant information from a list of vectors does not change the span of the
+list.
+
+\begin{thm}{Linear Dependence Lemma}
+    Suppose $v_1,\dots,v_m$ is a linearly dependent list in $V$. Then, there
+    exists an index $j \in \{1,\dots,m\}$ such that
+    \begin{enumerate}[(a)]
+        \item $v_j \in \linspan(v_1,v_{j-1})$
+        \item $\linspan(v_1,\dots,v_{j-1},v_{j+1},\dots,v_m) =
+            \linspan(v_1,\dots,v_m)$
+    \end{enumerate}
+\end{thm}
+
+\begin{proof}
+    For part (a), linear dependence implies that there exists a nontrivial
+    solution to the equation
+    \[
+        c_1v_1+\dots+c_mv_m = 0
+    \]
+    Thus there exists a largest index $j \in \{1,\dots,m\}$ such that
+    $c_j \neq 0$. The equation can be rearranged as
+    \[
+        v_j = \frac{c_1}{c_j} v_1 + \dots + \frac{c_{j-1}}{c_j} v_{j-1}
+    \]
+    Thus, $v_j \in \linspan(v_1,\dots,v_{j-1})$, proving (a). Part (b) follows
+    immediately by replacing $v_j$ in the liner combination $a_1v_1 + \dots +
+    a_mv_m$ by the equation above. The resulting linear combination will include
+    all of the vectors in the list except for $v_j$.
+\end{proof}
 \end{document}
+
+
+
+
+
+
+
+
+
+
+
 
